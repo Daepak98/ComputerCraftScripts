@@ -1,4 +1,5 @@
-local baseURL = "https://raw.githubusercontent.com/yourusername/yourrepository/main/" -- Replace with your repository URL
+-- local baseURL = "https://raw.githubusercontent.com/yourusername/yourrepository/main/" -- Replace with your repository URL
+local baseURL = "http://127.0.0.1:10001/"
 
 -- Define script groups and their files
 local SCRIPT_GROUPS = {
@@ -27,7 +28,7 @@ local function ensureDir(path)
     if dir then
         local parentDir = dir:match("^(.*)/")
         if parentDir and not fs.exists(parentDir) then
-            fs.mkdir(parentDir)
+            fs.makeDir(parentDir)
         end
     end
 end
@@ -37,7 +38,7 @@ local function downloadAndSave(relativePath)
     local url = baseURL .. relativePath
     local response = http.get(url)
     if response then
-        local fullPath = relativePath:gsub("^modules/", ""):gsub("^lib/", "") -- Adjust path if needed, assuming sync.lua is at root
+        local fullPath = relativePath -- Adjust path if needed, assuming sync.lua is at root
         local file = fs.open(fullPath, "w")
         file.write(response.readAll())
         file.close()
@@ -49,18 +50,24 @@ local function downloadAndSave(relativePath)
 end
 
 -- Process all groups and their dependencies
-for groupName, groupData in pairs(SCRIPT_GROUPS) do
-    print("--- Syncing Group: " .. groupName .. " ---")
-    
-    -- 1. Sync dependencies first
-    for _, depFile in ipairs(groupData.dependencies) do
-        ensureDir(depFile)
-        downloadAndSave(depFile)
-    end
+local groupName = arg[1]
+if not groupName or not SCRIPT_GROUPS[groupName] then
+    print("Usage: lua sync.lua <group_name>")
+    print("Available groups: ", table.concat(table.keys(SCRIPT_GROUPS), ", "))
+    return
+end
 
-    -- 2. Sync group files
-    for _, groupFile in ipairs(groupData.files) do
-        ensureDir(groupFile)
-        downloadAndSave(groupFile)
-    end
+local groupData = SCRIPT_GROUPS[groupName]
+print("--- Syncing Group: " .. groupName .. " ---")
+
+-- 1. Sync dependencies first
+for _, depFile in ipairs(groupData.dependencies) do
+    ensureDir(depFile)
+    downloadAndSave(depFile)
+end
+
+-- 2. Sync group files
+for _, groupFile in ipairs(groupData.files) do
+    ensureDir(groupFile)
+    downloadAndSave(groupFile)
 end
