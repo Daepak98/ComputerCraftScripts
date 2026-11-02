@@ -1,16 +1,19 @@
 term.clear()
 
+fuel = require("utilities.movement.fuel")
+patrol = require("patrol")
+
 local refuelFrequency = 20 -- Refuel every 20 moves
 
-checkFuelAndRefuel()
+fuel.checkFuelAndRefuel()
 
-goToStartPoint()
+patrol.goToStartPoint()
 
 local i = 1
 while true do
-    patrolAroundHome()
+    patrol.patrolAroundHome()
     if i % refuelFrequency == 0 then
-        checkFuelAndRefuel()
+        fuel.checkFuelAndRefuel()
     end
     i = i + 1
 end

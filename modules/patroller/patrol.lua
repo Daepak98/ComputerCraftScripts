@@ -1,6 +1,12 @@
+local patrol        = {}
+
 local HOME_LOCATION = { x = 0, y = 0, z = 0 } -- Replace with your home coordinates
 
-function lookAround(pauseTime)
+function patrol.goToStartPoint()
+    moveToPoint(HOME_LOCATION.x, HOME_LOCATION.y, HOME_LOCATION.z)
+end
+
+function patrol.lookAround(pauseTime)
     local directions = { "North", "East", "South", "West" }
     for _, direction in ipairs(directions) do
         faceDirection(direction)
@@ -13,7 +19,7 @@ function lookAround(pauseTime)
 end
 
 -- function to cycle around home in counter-clockwise direction
-local function moveAndCheck(direction, distance)
+function patrol.moveAndCheck(direction, distance)
     local faced = faceDirection(direction)
     if not faced then
         print("Failed to face " .. direction .. ". Aborting patrol.")
@@ -27,11 +33,7 @@ local function moveAndCheck(direction, distance)
     return true
 end
 
-function goToStartPoint()
-    moveToPoint(HOME_LOCATION.x, HOME_LOCATION.y, HOME_LOCATION.z)
-end
-
-function patrolAroundHome()
+function patrol.patrolAroundHome()
     local moves = {
         { direction = "West", distance = 5,  lookAroundAfter = true },
         { direction = "East", distance = 10, lookAroundAfter = true },
@@ -48,3 +50,5 @@ function patrolAroundHome()
         end
     end
 end
+
+return patrol

@@ -1,4 +1,6 @@
-function checkFuelAndRefuel()
+local fuel = {}
+
+function fuel.checkFuelAndRefuel()
     local fuelLevel = turtle.getFuelLevel()
     if fuelLevel == "unlimited" then
         print("Fuel level is unlimited.")
@@ -20,3 +22,5 @@ function checkFuelAndRefuel()
         return true
     end
 end
+
+return fuel

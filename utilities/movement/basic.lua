@@ -1,16 +1,18 @@
-function getCurrentLocation()
+local basic = {}
+
+function basic.getCurrentLocation()
     local x, y, z = gps.locate()
-    return {x = x, y = y, z = z}
+    return { x = x, y = y, z = z }
 end
 
-function getFacingDirection()
-    local location = getCurrentLocation()
+function basic.getFacingDirection()
+    local location = basic.getCurrentLocation()
     if not location or not location.x then
         print("Unable to get current location. Ensure GPS is enabled and try again.")
         return
     end
     turtle.forward()
-    local newLocation = getCurrentLocation()
+    local newLocation = basic.getCurrentLocation()
     turtle.back()
     if newLocation.x > location.x then
         return "East"
@@ -23,8 +25,8 @@ function getFacingDirection()
     end
 end
 
-function faceDirection(direction)
-    local currentFacing = getFacingDirection()
+function basic.faceDirection(direction)
+    local currentFacing = basic.getFacingDirection()
     if not currentFacing then
         print("Unable to determine facing direction.")
         return
@@ -48,7 +50,7 @@ function faceDirection(direction)
     end
 end
 
-function moveDistance(distance)
+function basic.moveDistance(distance)
     for i = 1, distance do
         if not turtle.forward() then
             print("Movement blocked. Unable to move forward.")
@@ -58,9 +60,8 @@ function moveDistance(distance)
     return true
 end
 
-
-function moveToPoint(targetX, targetY, targetZ)
-    local location = getCurrentLocation()
+function basic.moveToPoint(targetX, targetY, targetZ)
+    local location = basic.getCurrentLocation()
     if not location or not location.x then
         print("Unable to get current location. Ensure GPS is enabled and try again.")
         return false
@@ -72,20 +73,20 @@ function moveToPoint(targetX, targetY, targetZ)
 
     -- Move in the X direction
     if deltaX > 0 then
-        faceDirection("East")
-        moveDistance(deltaX)
+        basic.faceDirection("East")
+        basic.moveDistance(deltaX)
     elseif deltaX < 0 then
-        faceDirection("West")
-        moveDistance(-deltaX)
+        basic.faceDirection("West")
+        basic.moveDistance(-deltaX)
     end
 
     -- Move in the Z direction
     if deltaZ > 0 then
-        faceDirection("South")
-        moveDistance(deltaZ)
+        basic.faceDirection("South")
+        basic.moveDistance(deltaZ)
     elseif deltaZ < 0 then
-        faceDirection("North")
-        moveDistance(-deltaZ)
+        basic.faceDirection("North")
+        basic.moveDistance(-deltaZ)
     end
 
     -- Move in the Y direction (up or down)
@@ -101,3 +102,5 @@ function moveToPoint(targetX, targetY, targetZ)
 
     return true
 end
+
+return basic
