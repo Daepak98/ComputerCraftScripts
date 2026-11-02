@@ -2,11 +2,16 @@
 -- A downloader script for ComputerCraft modules.
 
 local moduleName = arg[1]
-local baseUrl = "http://127.0.0.1:10001/"
+-- local baseUrl = "http://127.0.0.1:10001/"
+local baseUrl = "https://raw.githubusercontent.com/Daepak98/ComputerCraftScripts/refs/heads/main/"
+
+if arg[2] then
+    baseUrl = arg[2]
+end
 
 if not moduleName then
     print("Available modules: patroller")
-    print("Usage: sync <module_name>")
+    print("Usage: sync <module_name> [base_url]")
     return
 end
 
