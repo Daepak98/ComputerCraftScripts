@@ -11,9 +11,29 @@ function basic.getFacingDirection()
         print("Unable to get current location. Ensure GPS is enabled and try again.")
         return
     end
-    turtle.forward()
-    local newLocation = basic.getCurrentLocation()
+
+    local success, newLocation = false, nil
+
+    -- Attempt 1: Move forward
+    if turtle.forward() then
+        newLocation = basic.getCurrentLocation()
+        success = true
+    else
+        -- Attempt 1 failed, spin 180 degrees and try again
+        print("Initial move forward failed. Spinning around and retrying...")
+        turtle.turnRight()
+        turtle.turnRight()
+        if turtle.forward() then
+            newLocation = basic.getCurrentLocation()
+            success = true
+        else
+            print("Second move forward failed after spinning. Cannot determine facing direction.")
+            return
+        end
+    end
+
     turtle.back()
+
     if newLocation.x > location.x then
         return "East"
     elseif newLocation.x < location.x then
@@ -75,13 +95,13 @@ function basic.moveToPoint(targetX, targetY, targetZ)
     local deltaZ = targetZ - location.z
 
     -- Move in the X direction
-    if deltaX > 0 then
+    if deltaX < 0 then
         basic.faceDirection("East")
         if not basic.moveDistance(deltaX) then
             print("Failed to move East. Aborting movement.")
             return false
         end
-    elseif deltaX < 0 then
+    elseif deltaX > 0 then
         basic.faceDirection("West")
         if not basic.moveDistance(-deltaX) then
             print("Failed to move West. Aborting movement.")
@@ -90,13 +110,13 @@ function basic.moveToPoint(targetX, targetY, targetZ)
     end
 
     -- Move in the Z direction
-    if deltaZ > 0 then
+    if deltaZ < 0 then
         basic.faceDirection("South")
         if not basic.moveDistance(deltaZ) then
             print("Failed to move South. Aborting movement.")
             return false
         end
-    elseif deltaZ < 0 then
+    elseif deltaZ > 0 then
         basic.faceDirection("North")
         if not basic.moveDistance(-deltaZ) then
             print("Failed to move North. Aborting movement.")
