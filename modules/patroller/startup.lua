@@ -5,7 +5,10 @@ patrol = require("patrol")
 
 local refuelFrequency = 20 -- Refuel every 20 moves
 
-fuel.checkFuelAndRefuel()
+if not fuel.checkFuelAndRefuel() then
+    print("Unable to refuel. Aborting patrol.")
+    return
+end
 
 if not patrol.goToStartPoint() then
     print("Failed to return to home location. Aborting patrol.")
