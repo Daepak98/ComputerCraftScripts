@@ -17,7 +17,6 @@ function basic.getFacingDirection()
     -- Attempt 1: Move forward
     if turtle.forward() then
         newLocation = basic.getCurrentLocation()
-        success = true
     else
         -- Attempt 1 failed, spin 180 degrees and try again
         print("Initial move forward failed. Spinning around and retrying...")
@@ -25,7 +24,6 @@ function basic.getFacingDirection()
         turtle.turnRight()
         if turtle.forward() then
             newLocation = basic.getCurrentLocation()
-            success = true
         else
             print("Second move forward failed after spinning. Cannot determine facing direction.")
             return
@@ -50,6 +48,8 @@ function basic.faceDirection(direction)
     if not currentFacing then
         print("Unable to determine facing direction.")
         return
+    else
+        print("Current Facing Direction: " .. currentFacing)
     end
 
     local turns = {
