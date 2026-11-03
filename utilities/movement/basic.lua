@@ -52,6 +52,11 @@ function basic.faceDirection(direction)
         print("Current Facing Direction: " .. currentFacing)
     end
 
+    if currentFacing == direction then
+        print("Already facing " .. direction)
+        return true
+    end
+
     local turns = {
         North = { East = 1, South = 2, West = 3 },
         East = { South = 1, West = 2, North = 3 },
