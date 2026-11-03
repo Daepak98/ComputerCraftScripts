@@ -95,14 +95,14 @@ function basic.moveToPoint(targetX, targetY, targetZ)
     local deltaZ = targetZ - location.z
 
     -- Move in the X direction
-    if deltaX < 0 then
+    if deltaX > 0 then
         print("Moving East")
         basic.faceDirection("East")
         if not basic.moveDistance(deltaX) then
             print("Failed to move East. Aborting movement.")
             return false
         end
-    elseif deltaX > 0 then
+    elseif deltaX < 0 then
         print("Moving West")
         basic.faceDirection("West")
         if not basic.moveDistance(-deltaX) then
@@ -112,14 +112,14 @@ function basic.moveToPoint(targetX, targetY, targetZ)
     end
 
     -- Move in the Z direction
-    if deltaZ < 0 then
+    if deltaZ > 0 then
         print("Moving South")
         basic.faceDirection("South")
         if not basic.moveDistance(deltaZ) then
             print("Failed to move South. Aborting movement.")
             return false
         end
-    elseif deltaZ > 0 then
+    elseif deltaZ < 0 then
         print("Moving North")
         basic.faceDirection("North")
         if not basic.moveDistance(-deltaZ) then
