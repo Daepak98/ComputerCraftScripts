@@ -77,29 +77,47 @@ function basic.moveToPoint(targetX, targetY, targetZ)
     -- Move in the X direction
     if deltaX > 0 then
         basic.faceDirection("East")
-        basic.moveDistance(deltaX)
+        if not basic.moveDistance(deltaX) then
+            print("Failed to move East. Aborting movement.")
+            return false
+        end
     elseif deltaX < 0 then
         basic.faceDirection("West")
-        basic.moveDistance(-deltaX)
+        if not basic.moveDistance(-deltaX) then
+            print("Failed to move West. Aborting movement.")
+            return false
+        end
     end
 
     -- Move in the Z direction
     if deltaZ > 0 then
         basic.faceDirection("South")
-        basic.moveDistance(deltaZ)
+        if not basic.moveDistance(deltaZ) then
+            print("Failed to move South. Aborting movement.")
+            return false
+        end
     elseif deltaZ < 0 then
         basic.faceDirection("North")
-        basic.moveDistance(-deltaZ)
+        if not basic.moveDistance(-deltaZ) then
+            print("Failed to move North. Aborting movement.")
+            return false
+        end
     end
 
     -- Move in the Y direction (up or down)
     if deltaY > 0 then
         for i = 1, deltaY do
-            turtle.up()
+            if not turtle.up() then
+                print("Movement blocked. Unable to move up.")
+                return false
+            end
         end
     elseif deltaY < 0 then
         for i = 1, -deltaY do
-            turtle.down()
+            if not turtle.down() then
+                print("Movement blocked. Unable to move down.")
+                return false
+            end
         end
     end
 

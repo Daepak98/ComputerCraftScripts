@@ -7,7 +7,10 @@ local refuelFrequency = 20 -- Refuel every 20 moves
 
 fuel.checkFuelAndRefuel()
 
-patrol.goToStartPoint()
+if not patrol.goToStartPoint() then
+    print("Failed to return to home location. Aborting patrol.")
+    return
+end
 
 local i = 1
 while true do

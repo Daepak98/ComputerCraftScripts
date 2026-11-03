@@ -6,7 +6,11 @@ local HOME_LOCATION = { x = -376, y = 62, z = -151 } -- Replace with your home c
 
 function patrol.goToStartPoint()
     print("Returning to HOME: (" .. HOME_LOCATION.x .. ", " .. HOME_LOCATION.y .. ", " .. HOME_LOCATION.z .. ")")
-    movement.moveToPoint(HOME_LOCATION.x, HOME_LOCATION.y, HOME_LOCATION.z)
+    if not movement.moveToPoint(HOME_LOCATION.x, HOME_LOCATION.y, HOME_LOCATION.z) then
+        print("Failed to return to home location. Aborting patrol.")
+        return false
+    end
+    return true
 end
 
 function patrol.lookAround(pauseTime)
