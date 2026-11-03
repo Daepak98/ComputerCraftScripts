@@ -19,7 +19,10 @@ local i = 1
 while true do
     patrol.patrolAroundHome()
     if i % refuelFrequency == 0 then
-        fuel.checkFuelAndRefuel()
+        if not fuel.checkFuelAndRefuel() then
+            print("Unable to refuel. Aborting patrol.")
+            return
+        end
     end
     i = i + 1
 end
