@@ -2,9 +2,10 @@ movement = require("utilities.movement.basic")
 
 local patrol        = {}
 
-local HOME_LOCATION = { x = 0, y = 0, z = 0 } -- Replace with your home coordinates
+local HOME_LOCATION = { x = -376, y = 62, z = -151 } -- Replace with your home coordinates
 
 function patrol.goToStartPoint()
+    print("Returning to HOME: (" .. HOME_LOCATION.x .. ", " .. HOME_LOCATION.y .. ", " .. HOME_LOCATION.z .. ")")
     movement.moveToPoint(HOME_LOCATION.x, HOME_LOCATION.y, HOME_LOCATION.z)
 end
 

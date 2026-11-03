@@ -65,6 +65,9 @@ function basic.moveToPoint(targetX, targetY, targetZ)
     if not location or not location.x then
         print("Unable to get current location. Ensure GPS is enabled and try again.")
         return false
+    else
+        print("Current Location: (" .. location.x .. ", " .. location.y .. ", " .. location.z .. ")")
+        print("Target Location: (" .. targetX .. ", " .. targetY .. ", " .. targetZ .. ")")
     end
 
     local deltaX = targetX - location.x
